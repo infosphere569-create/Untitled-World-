@@ -1,19 +1,22 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, Globe, User } from "lucide-react";
+import { Menu, Globe, LogOut, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { isAdmin, logout } = useAuth();
 
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/tests", label: "Mock Tests" },
     { href: "/contact", label: "Contact" },
-    { href: "/admin", label: "Admin Panel" },
+    // Only show admin link if logged in
+    ...(isAdmin ? [{ href: "/admin", label: "Admin Panel" }] : []),
   ];
 
   return (
@@ -51,8 +54,22 @@ export default function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <Button variant="ghost" size="sm">Log in</Button>
-          <Button size="sm" className="font-medium shadow-lg shadow-primary/25">Get Started</Button>
+          {isAdmin ? (
+             <div className="flex items-center gap-4">
+               <span className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-green-500" />
+                 Admin Mode
+               </span>
+               <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:text-red-600 hover:bg-red-50">
+                 <LogOut className="h-4 w-4 mr-2" /> Logout
+               </Button>
+             </div>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm">Log in</Button>
+              <Button size="sm" className="font-medium shadow-lg shadow-primary/25">Get Started</Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -84,8 +101,16 @@ export default function Navbar() {
               </div>
               
               <div className="px-4 flex flex-col gap-3">
-                 <Button className="w-full" size="lg">Get Started</Button>
-                 <Button variant="outline" className="w-full" size="lg">Log in</Button>
+                 {isAdmin ? (
+                   <Button variant="destructive" className="w-full" onClick={() => { logout(); setIsOpen(false); }}>
+                     Logout
+                   </Button>
+                 ) : (
+                   <>
+                     <Button className="w-full" size="lg">Get Started</Button>
+                     <Button variant="outline" className="w-full" size="lg">Log in</Button>
+                   </>
+                 )}
               </div>
             </div>
           </SheetContent>
