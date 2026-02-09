@@ -10,6 +10,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Clock, ChevronLeft, ChevronRight, Save, Flag, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Menu, Grid } from "lucide-react";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 
 export default function TestTaking() {
@@ -93,8 +95,66 @@ export default function TestTaking() {
             <Clock className="h-4 w-4 text-primary" />
             {formatTime(timeLeft)}
           </div>
-          <Button onClick={() => setIsSubmitDialogOpen(true)} variant="default" className="bg-green-600 hover:bg-green-700">
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <Grid className="h-4 w-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px]">
+              <SheetTitle className="font-heading font-semibold mb-4">Question Palette</SheetTitle>
+              <div className="grid grid-cols-2 gap-2 text-xs mb-4 pb-4 border-b">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded bg-green-500 text-white flex items-center justify-center">A</div>
+                  <span>Answered</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded bg-red-500 text-white flex items-center justify-center">NA</div>
+                  <span>Not Answered</span>
+                </div>
+                 <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded bg-slate-200 flex items-center justify-center">NV</div>
+                  <span>Not Visited</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded bg-yellow-500 text-white flex items-center justify-center">R</div>
+                  <span>Review</span>
+                </div>
+              </div>
+
+              <ScrollArea className="h-[calc(100vh-200px)]">
+                 <div className="grid grid-cols-5 gap-2">
+                   {test.questions.map((q, idx) => {
+                     let statusClass = "bg-slate-200 hover:bg-slate-300"; 
+                     if (markedForReview[q.id]) statusClass = "bg-yellow-500 text-white hover:bg-yellow-600";
+                     else if (answers[q.id] !== undefined) statusClass = "bg-green-500 text-white hover:bg-green-600";
+                     else if (currentQuestionIndex === idx) statusClass = "ring-2 ring-primary ring-offset-2 bg-slate-200"; 
+                     
+                     return (
+                       <button
+                        key={q.id}
+                        onClick={() => setCurrentQuestionIndex(idx)}
+                        className={cn(
+                          "w-10 h-10 rounded-md flex items-center justify-center text-sm font-medium transition-all",
+                          statusClass,
+                          currentQuestionIndex === idx && "ring-2 ring-offset-2 ring-primary z-10"
+                        )}
+                       >
+                         {idx + 1}
+                       </button>
+                     )
+                   })}
+                 </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+
+          <Button onClick={() => setIsSubmitDialogOpen(true)} variant="default" className="bg-green-600 hover:bg-green-700 hidden sm:inline-flex">
             Submit Test
+          </Button>
+          <Button onClick={() => setIsSubmitDialogOpen(true)} variant="default" className="bg-green-600 hover:bg-green-700 sm:hidden">
+            Submit
           </Button>
         </div>
       </header>

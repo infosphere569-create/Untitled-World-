@@ -67,25 +67,32 @@ export default function Admin() {
     // Mock AI response
     const mockQuestions = [
       {
-        text: "Which law states that the current through a conductor between two points is directly proportional to the voltage across the two points?",
-        options: ["Newton's Law", "Ohm's Law", "Faraday's Law", "Ampere's Law"],
+        text: "For the reaction N2(g) + 3H2(g) ⇌ 2NH3(g), the value of Kp depends on:",
+        options: ["Total Pressure", "Catalyst", "Temperature", "Initial Concentration"],
+        correctOption: 2,
+        subject: "Chemistry",
+        explanation: "Equilibrium constant Kp depends only on temperature for a given reaction.",
+      },
+      {
+        text: "If y = log(sin x), then dy/dx is:",
+        options: ["tan x", "cot x", "sec x", "cosec x"],
+        correctOption: 1,
+        subject: "Maths",
+        explanation: "d/dx(log(sin x)) = (1/sin x) * cos x = cot x",
+      },
+      {
+        text: "A particle is projected with velocity u at an angle θ with horizontal. The maximum height is:",
+        options: ["u²sin²θ/g", "u²sin²θ/2g", "u²sin2θ/g", "u²cos²θ/2g"],
         correctOption: 1,
         subject: "Physics",
-        explanation: "Ohm's law states that the current through a conductor between two points is directly proportional to the voltage across the two points.",
+        explanation: "Maximum height H = (u² sin²θ) / 2g",
       },
       {
-        text: "What is the pH of pure water at 25°C?",
-        options: ["0", "7", "14", "1"],
-        correctOption: 1,
-        subject: "Chemistry",
-        explanation: "Pure water is neutral, so its pH is 7 at 25 degrees Celsius.",
-      },
-      {
-        text: "The derivative of sin(x) is:",
-        options: ["cos(x)", "-cos(x)", "tan(x)", "sec(x)"],
-        correctOption: 0,
-        subject: "Maths",
-        explanation: "d/dx(sin x) = cos x",
+        text: "Which of the following is NOT a fundamental unit?",
+        options: ["Meter", "Second", "Newton", "Kelvin"],
+        correctOption: 2,
+        subject: "Physics",
+        explanation: "Newton is a derived unit of force (kg·m/s²).",
       },
     ];
 
@@ -96,7 +103,7 @@ export default function Admin() {
     setIsAiGenerating(false);
     toast({
       title: "AI Generation Complete",
-      description: "Added 3 high-quality questions to your test.",
+      description: "Generated 4 exam-relevant questions based on latest patterns.",
     });
   };
 

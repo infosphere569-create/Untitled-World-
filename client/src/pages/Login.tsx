@@ -50,7 +50,7 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="text-center tracking-widest"
               />
-              <p className="text-xs text-center text-muted-foreground">Hint: password is 'admin123'</p>
+              <p className="text-xs text-center text-muted-foreground">Hint: password is '7799'</p>
             </div>
             <Button type="submit" className="w-full" size="lg">
               Unlock Dashboard

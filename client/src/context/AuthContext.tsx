@@ -23,7 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = (password: string) => {
     // Mock password check - simple and client-side only for prototype
-    if (password === "admin123") {
+    if (password === "7799") {
       setIsAdmin(true);
       localStorage.setItem("untitled-world-admin", "true");
       return true;
